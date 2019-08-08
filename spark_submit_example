@@ -1,0 +1,13 @@
+spark_submit with kafka sample
+
+/usr/hdp/current/spark2-client/bin/spark-submit --name datavalidationFor56 --verbose --master=yarn --deploy-mode=client --driver-memory 512M --executor-memory 512M --jars /usr/hdp/current/sqoop-client/lib/ojdbc7.jar
+--conf 'spark.executor.extraJavaOptions=-Djava.security.auth.login.config=sample_jaas.conf -Djava.security.krb5.conf=krb5.conf -Djavax.security.auth.useSubjectCredsOnly=false -Dsun.security.krb5.debug=false
+-Djavax.net.ssl.trustStore=kafkaJksFile.server.truststore.jks -Djava.io.tmpdir=/hadoop/tmp -Dorg.xerial.snappy.tempdir=/hadoop/tmp'
+--conf 'spark.driver.extraJavaOptions=-Djava.security.auth.login.config=sample_jaas.conf -Djava.security.krb5.conf=krb5.conf
+ -Djavax.security.auth.useSubjectCredsOnly=false -Dsun.security.krb5.debug=false -Djavax.net.ssl.trustStore=kafkaJksFile.server.truststore.jks
+ -Djava.io.tmpdir=/hadoop/tmp -Dorg.xerial.snappy.tempdir=/hadoop/tmp' --conf spark.yarn.maxAppAttempts=4 --conf spark.yarn.am.attemptFailuresValidityInterval=1h
+ --conf spark.streaming.stopGracefullyOnShutdown=true --conf spark.hadoop.fs.hdfs.impl.disable.cache=true
+ --conf spark.executor.extraClassPath=/KafkaClientJar/path/kafka-clients-1.0.1.jar --conf spark.driver.extraClassPath=/KafkaClientJar/path/kafka-clients-1.0.1.jar
+ --principal user_name@ACCOUNTS.ROOT.CORP --keytab /home/user_name/user_name.keytab
+ --files krb5.conf,sample_jaas.conf,KafkaKeytab.keytab,kafkaJksFile.server.truststore.jks
+ --class class_file_with_package.class jar/myproject.jar arguments
